@@ -1,0 +1,10 @@
+body{
+	background: #DCDCDC;
+}
+
+canvas{
+	display: block;
+	margin: 50px auto;
+	border: 9px solid #666;
+	background: #222;
+}
