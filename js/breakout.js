@@ -13,6 +13,7 @@ class BreakOut{
     const step = 1/160;
 
     let currLevel = 0;
+    let levels;
 
     const draw = () => {
       arena.draw()
@@ -21,10 +22,13 @@ class BreakOut{
     }
 
     const startGame = (dt) => {
-      resetGame(this.levels[0]);
-
-      lastTime = dt;
-      requestAnimationFrame(gameLoop);
+      this.loadLevels('levels/levels.txt')
+        .then((lvls) => {
+          levels = lvls;
+          resetGame(levels[0]);
+          lastTime = dt;
+          requestAnimationFrame(gameLoop);
+        });
     }
 
     const resetGame = (level) => {
@@ -74,11 +78,11 @@ class BreakOut{
         // check if ball collides with bottom //
         if (ball.pos.y + ball.radius > canvas.height){
           if (paddle.lives <= 0){
-            return resetGame(this.levels[0]);
+            return resetGame(levels[0]);
           }
           resetBall();
           paddle.lives --;
-          console.log(paddle.lives);
+          // console.log(paddle.lives);
         }
 
         // check if ball collides with top or sides //
@@ -131,14 +135,15 @@ class BreakOut{
         if(done){
           currLevel ++;
           paddle.lives ++;
-          resetGame(this.levels[currLevel]);
+          resetGame(levels[currLevel]);
         }
       });
     }
 
     // setup paddle movement //
     canvas.addEventListener('mousemove', (e) => paddle.move(e.offsetX));
-
+    
+    // start gameloop //
     requestAnimationFrame(startGame);
   }
 
@@ -153,4 +158,21 @@ class BreakOut{
     }
     return matrix;
   }
+
+  loadLevels(url){
+    return fetch(url)
+      .then((response) => response.text())
+      .then((text) => {
+        let newArray = [];
+        let oldArray = text.split('\n');
+        let nextIndex = oldArray.indexOf("");
+        while (nextIndex > -1 ) {
+          newArray.push(oldArray.slice(0, nextIndex));
+          oldArray = oldArray.slice(nextIndex+1);
+          nextIndex = oldArray.indexOf("");
+        }
+        return newArray;
+      });
+  }
+
 }
