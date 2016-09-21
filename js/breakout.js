@@ -19,6 +19,7 @@ class BreakOut{
       arena.draw()
       balls.forEach((ball) => arena.drawCircle(ball, '#645CFF'));
       arena.drawRect(paddle);
+      arena.drawHealth(paddle.lives);
     }
 
     const startGame = (dt) => {

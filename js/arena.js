@@ -57,6 +57,12 @@ class Arena {
     this.ctx.fillRect(rect.pos.x-rect.width/2, rect.pos.y-rect.height/2, rect.width, rect.height);
   }
 
+  drawHealth(health) {
+    this.ctx.fillStyle = '#fff';
+    this.ctx.font = '32px Ariel';
+    this.ctx.fillText('health:'+health, 10, this.canvas.height- 10);
+  }
+
   reset(level) {
     this.matrix = this.createLevel(level);
   }
