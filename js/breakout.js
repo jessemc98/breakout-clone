@@ -127,8 +127,11 @@ class BreakOut{
                   ball.vel.x = -Math.abs(ball.vel.x);
                 }
               }
+              if(arena.matrix[y][x].health > 0){
+                return arena.matrix[y][x].health -= 1;
+              }
               arena.matrix[y][x] = 0;
-              return;
+              
             }
           })
         })

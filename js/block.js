@@ -3,6 +3,7 @@ class Block extends Rect {
 		super(width, height);
 		this.left = left;
 		this.top = top;
+		this.health = color;
 		this.color = (color !== undefined) ? this.colors()[color] : this.colors()[Math.floor(Math.random() * this.colors().length ) + 1];
 	}
 
@@ -17,5 +18,14 @@ class Block extends Rect {
 	      '#C0B610', '#747474', '#005353', '#631F9B',
 	      '#437554', '#314300', '#9B1D0C', '#30D39F',
 	      '#A11451', '#4BB0FF', '#4A4A4A', '#035000'];
+	}
+
+	set health(x) {
+		this._health = x;
+		this.color = this.colors()[x]
+	}
+
+	get health() {
+		return this._health;
 	}
 }

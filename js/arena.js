@@ -21,9 +21,7 @@ class Arena {
       matrix[y] = [];
       for(let x = 0; x < width; x++){
         if (levelMatrix[y][x] > 0) {
-          matrix[y][x] =  new Block(x * size + 1, y * size/2 + 1, size - 2, size/2 - 2);
-          // matrix[y][x].left = x * size + 1;
-          // matrix[y][x].top = y * size/2 + 1;
+          matrix[y][x] =  new Block(x * size + 1, y * size/2 + 1, size - 2, size/2 - 2, levelMatrix[y][x]-1);
         }
         else {
           matrix[y][x] = 0;
