@@ -82,7 +82,7 @@ class BreakOut{
           }
           resetBall();
           paddle.lives --;
-          // console.log(paddle.lives);
+          console.log(paddle.lives);
         }
 
         // check if ball collides with top or sides //
@@ -141,7 +141,7 @@ class BreakOut{
     }
 
     // setup paddle movement //
-    canvas.addEventListener('mousemove', (e) => paddle.move(e.offsetX));
+    canvas.addEventListener('mousemove', (e) => paddle.move(canvas.width * (e.offsetX / e.target.getBoundingClientRect().width)));
     
     // start gameloop //
     requestAnimationFrame(startGame);
