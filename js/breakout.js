@@ -37,10 +37,22 @@ class BreakOut{
 
     const resetBall = () => {
       ball.vel = new Vector();
-      ball.pos.x = paddle.pos.x;
-      ball.pos.y = paddle.top - ball.radius;
+      ballToPaddle();
       this.state = 'pause';
       canvas.addEventListener('click', startBall);
+      canvas.addEventListener('mousemove', ballToPaddle);
+    }
+
+    const ballToPaddle = () => {
+      ball.pos.x = paddle.pos.x;
+      ball.pos.y = paddle.top - ball.radius;
+    }
+
+    const startBall = () => {
+      ball.vel.y = -0.8;
+      this.state = 'play';
+      canvas.removeEventListener('mousemove', ballToPaddle);
+      canvas.removeEventListener('click', startBall);
     }
 
     const gameLoop = (dt) => {
@@ -120,26 +132,12 @@ class BreakOut{
           currLevel ++;
           paddle.lives ++;
           resetGame(this.levels[currLevel]);
-          canvas.addEventListener('click', startBall);
         }
       });
     }
 
-
-    // setup movement (refactor) //
-    const startBall = (e) => {
-      ball.vel.y = -0.8;
-      // ball.vel.x = 0.2;
-      this.state = 'play';
-      canvas.removeEventListener('click', startBall);
-    }
-    canvas.addEventListener('mousemove', (e) => {
-      paddle.pos.x = e.offsetX;
-      if(this.state === 'pause'){
-        ball.pos.x = paddle.pos.x;
-      }
-    })
-    canvas.addEventListener('click', startBall);
+    // setup paddle movement //
+    canvas.addEventListener('mousemove', (e) => paddle.move(e.offsetX));
 
     requestAnimationFrame(startGame);
   }

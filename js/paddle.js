@@ -4,4 +4,7 @@ class Paddle extends Rect {
 		this.pos = {x, y}
 		this.lives = 3;
 	}
+	move(x){
+		this.pos.x = x;
+	}
 }
