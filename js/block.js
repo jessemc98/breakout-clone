@@ -3,7 +3,7 @@ class Block extends Rect {
 		super(width, height);
 		this.left = left;
 		this.top = top;
-		this.health = color;
+		this._health = color;
 		this.color = (color !== undefined) ? this.colors()[color] : this.colors()[Math.floor(Math.random() * this.colors().length ) + 1];
 	}
 
