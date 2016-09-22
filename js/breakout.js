@@ -11,7 +11,7 @@ class BreakOut{
     //timing variables//
     let lastTime;
     let timeDiff = 0;
-    const step = 1/240;
+    const step = 1/500;
 
     let currLevel = 0;
     let levels;
