@@ -13,6 +13,11 @@ class Vector {
     this.x = this.x/total;
     this.y = this.y/total;
   }
+
+  flip() {
+    [this.x, this.y] = [this.y, this.x];
+    console.log(this.x, this.y);
+  }
 }
 
 class Rect {
