@@ -16,8 +16,8 @@ class Vector {
 }
 
 class Rect {
-  constructor(width=0, height=0){
-  this.pos = new Vector();
+  constructor(width=0, height=0, pos=new Vector){
+  this.pos = pos;
   this.width = width;
   this.height = height;
   }
@@ -52,6 +52,15 @@ class Rect {
 
   set bottom(val) {
     this.pos.y = val - this.height/2;
+  }
+
+  get corners() {
+    return [
+      new Vector(this.left, this.top),
+      new Vector(this.right, this.top),
+      new Vector(this.right, this.bottom),
+      new Vector(this.left, this.bottom)
+    ];
   }
 }
 
