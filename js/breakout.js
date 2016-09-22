@@ -3,6 +3,7 @@ class BreakOut{
     this.state = 'pause';
 
     const arena = new Arena(canvas);
+    this.arena = arena;
     const ball = new Ball(canvas.width/2, canvas.height/2, 5);
     const balls = [ball];
     const paddle = new Paddle(canvas.width/2, canvas.height - 50);
@@ -10,7 +11,7 @@ class BreakOut{
     //timing variables//
     let lastTime;
     let timeDiff = 0;
-    const step = 1/160;
+    const step = 1/500;
 
     let currLevel = 0;
     let levels;
@@ -113,29 +114,17 @@ class BreakOut{
         arena.matrix.forEach((row, y) => {
           row.forEach((block, x) => {
             if (block === 0) return;
+
             done = false;
-            if (ball.collidesRect(block)){
-              ball.move(-time);
-              if (block.top >= ball.pos.y) {
-                ball.vel.y = -Math.abs(ball.vel.y);
-              } else if (block.bottom <= ball.pos.y) {
-                ball.vel.y = Math.abs(ball.vel.y);
-              } else {
-                if (ball.pos.x > block.pos.x){
-                  ball.vel.x = Math.abs(ball.vel.x);
-                }
-                if (ball.pos.x < block.pos.x){
-                  ball.vel.x = -Math.abs(ball.vel.x);
-                }
-              }
-              if(arena.matrix[y][x].health > 0){
-                return arena.matrix[y][x].health -= 1;
+            this.collide(block, ball, () => {
+              if(block.health > 0){
+                return block.health -= 1;
               }
               arena.matrix[y][x] = 0;
-              
-            }
-          })
-        })
+            });
+          });
+        });
+
         if(done){
           currLevel ++;
           paddle.lives ++;
@@ -149,6 +138,48 @@ class BreakOut{
     
     // start gameloop //
     requestAnimationFrame(startGame);
+  }
+
+  collide(block, ball, callback){
+    // check if ball is close to block //
+    if(ball.pos.distTo(block) > block.width){
+      return;
+    }
+
+    const topBottom = new Rect(block.width, 
+                               block.height + (2 * ball.radius), 
+                               block.pos);
+    const leftRight = new Rect(block.width + (2 * ball.radius),
+                               block.height,
+                               block.pos);
+    const corners = block.corners;
+
+    function pointInRect(point, rect){
+      return point.y < rect.bottom &&
+             point.y > rect.top &&
+             point.x > rect.left && 
+             point.x < rect.right;
+    } 
+
+    // check if ball collides block top or bottom //
+    if(pointInRect(ball.pos, topBottom)){
+      callback();
+      return ball.vel.y = -ball.vel.y;
+    }
+
+    // check if ball collides block left or right //
+    if(pointInRect(ball.pos, leftRight)){
+      callback();
+      return ball.vel.x = -ball.vel.x;
+    }
+
+    // check if ball collides with block corners //
+    for(let i = 3; i >= 0; i--){
+      if(corners[i].distTo(ball.pos) < ball.radius){
+        callback();
+        return ball.vel.flip();
+      }
+    }
   }
 
   createMatrix(width, height){
