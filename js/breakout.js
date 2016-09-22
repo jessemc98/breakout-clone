@@ -175,7 +175,7 @@ class BreakOut{
 
     // check if ball collides with block corners //
     for(let i = 3; i >= 0; i--){
-      if(corners[1].distTo(ball.pos) < ball.radius){
+      if(corners[i].distTo(ball.pos) < ball.radius){
         callback();
         return ball.vel.flip();
       }

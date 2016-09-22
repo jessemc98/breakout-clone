@@ -15,7 +15,7 @@ class Vector {
   }
 
   flip() {
-    [this.x, this.y] = [this.y, this.x];
+    [this.x, this.y] = [this.y, -this.x];
   }
 }
 
