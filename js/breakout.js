@@ -3,6 +3,7 @@ class BreakOut{
     this.state = 'pause';
 
     const arena = new Arena(canvas);
+    this.arena = arena;
     const ball = new Ball(canvas.width/2, canvas.height/2, 5);
     const balls = [ball];
     const paddle = new Paddle(canvas.width/2, canvas.height - 50);
@@ -113,29 +114,17 @@ class BreakOut{
         arena.matrix.forEach((row, y) => {
           row.forEach((block, x) => {
             if (block === 0) return;
+
             done = false;
-            if (ball.collidesRect(block)){
-              ball.move(-time);
-              if (block.top >= ball.pos.y) {
-                ball.vel.y = -Math.abs(ball.vel.y);
-              } else if (block.bottom <= ball.pos.y) {
-                ball.vel.y = Math.abs(ball.vel.y);
-              } else {
-                if (ball.pos.x > block.pos.x){
-                  ball.vel.x = Math.abs(ball.vel.x);
-                }
-                if (ball.pos.x < block.pos.x){
-                  ball.vel.x = -Math.abs(ball.vel.x);
-                }
-              }
-              if(arena.matrix[y][x].health > 0){
-                return arena.matrix[y][x].health -= 1;
+            this.collide(block, ball, () => {
+              if(block.health > 0){
+                return block.health -= 1;
               }
               arena.matrix[y][x] = 0;
-              
-            }
-          })
-        })
+            });
+          });
+        });
+
         if(done){
           currLevel ++;
           paddle.lives ++;
@@ -149,6 +138,24 @@ class BreakOut{
     
     // start gameloop //
     requestAnimationFrame(startGame);
+  }
+
+  collide(block, circle, callback){
+    if (circle.collidesRect(block)){
+      if (block.top >= circle.pos.y) {
+        circle.vel.y = -Math.abs(circle.vel.y);
+      } else if (block.bottom <= circle.pos.y) {
+        circle.vel.y = Math.abs(circle.vel.y);
+      } else {
+        if (circle.pos.x > block.pos.x){
+          circle.vel.x = Math.abs(circle.vel.x);
+        }
+        if (circle.pos.x < block.pos.x){
+          circle.vel.x = -Math.abs(circle.vel.x);
+        }
+      }
+      callback();            
+    }
   }
 
   createMatrix(width, height){
