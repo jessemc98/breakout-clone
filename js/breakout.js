@@ -141,6 +141,10 @@ class BreakOut{
   }
 
   collide(block, ball, callback){
+    // check if ball is close to block //
+    if(ball.pos.distTo(block) > block.width){
+      return;
+    }
 
     const topBottom = new Rect(block.width, 
                                block.height + (2 * ball.radius), 
