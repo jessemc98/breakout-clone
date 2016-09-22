@@ -140,21 +140,33 @@ class BreakOut{
     requestAnimationFrame(startGame);
   }
 
-  collide(block, circle, callback){
-    if (circle.collidesRect(block)){
-      if (block.top >= circle.pos.y) {
-        circle.vel.y = -Math.abs(circle.vel.y);
-      } else if (block.bottom <= circle.pos.y) {
-        circle.vel.y = Math.abs(circle.vel.y);
-      } else {
-        if (circle.pos.x > block.pos.x){
-          circle.vel.x = Math.abs(circle.vel.x);
-        }
-        if (circle.pos.x < block.pos.x){
-          circle.vel.x = -Math.abs(circle.vel.x);
-        }
-      }
-      callback();            
+  collide(block, ball, callback){
+
+    const topBottom = new Rect(block.width, 
+                               block.height + (2 * ball.radius), 
+                               block.pos);
+
+    const leftRight = new Rect(block.width + (2 * ball.radius),
+                               block.height,
+                               block.pos);
+
+    function pointInRect(point, rect){
+      return point.y < rect.bottom &&
+             point.y > rect.top &&
+             point.x > rect.left && 
+             point.x < rect.right;
+    } 
+
+    // check if ball collides block top or bottom //
+    if(pointInRect(ball.pos, topBottom)){
+      callback();
+      return ball.vel.y = -ball.vel.y;
+    }
+
+    // check if ball collides block left or right //
+    if(pointInRect(ball.pos, leftRight)){
+      callback();
+      return ball.vel.x = -ball.vel.x;
     }
   }
 
