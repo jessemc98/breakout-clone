@@ -16,7 +16,6 @@ class Vector {
 
   flip() {
     [this.x, this.y] = [this.y, this.x];
-    console.log(this.x, this.y);
   }
 }
 
