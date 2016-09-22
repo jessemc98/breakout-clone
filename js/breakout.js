@@ -11,7 +11,7 @@ class BreakOut{
     //timing variables//
     let lastTime;
     let timeDiff = 0;
-    const step = 1/160;
+    const step = 1/240;
 
     let currLevel = 0;
     let levels;
@@ -145,10 +145,10 @@ class BreakOut{
     const topBottom = new Rect(block.width, 
                                block.height + (2 * ball.radius), 
                                block.pos);
-
     const leftRight = new Rect(block.width + (2 * ball.radius),
                                block.height,
                                block.pos);
+    const corners = block.corners;
 
     function pointInRect(point, rect){
       return point.y < rect.bottom &&
@@ -167,6 +167,14 @@ class BreakOut{
     if(pointInRect(ball.pos, leftRight)){
       callback();
       return ball.vel.x = -ball.vel.x;
+    }
+
+    // check if ball collides with block corners //
+    for(let i = 3; i >= 0; i--){
+      if(corners[1].distTo(ball.pos) < ball.radius){
+        callback();
+        return ball.vel.flip();
+      }
     }
   }
 
