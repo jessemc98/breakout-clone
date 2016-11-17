@@ -6,3 +6,4 @@ after cloning repository, run `npm i && npm start` to install dependencies and r
 ```
 Only works in new browsers as it is written in the ECMAScript® 2016 Language Specification.
 ```
+view a live version of the project [here](http://www.j-mcintosh.com/breakout)
