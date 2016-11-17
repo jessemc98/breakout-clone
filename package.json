@@ -1,0 +1,15 @@
+{
+  "name": "breakout",
+  "version": "0.0.1",
+  "description": "Simple, buggy, breakout clone written for fun using HTML5 canvas and javascript ES6.",
+  "main": "index.js",
+  "scripts": {
+  	"start": "node_modules/browser-sync/bin/browser-sync.js start -s --index breakout.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "jesse mcintosh",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.18.1"
+  }
+}
